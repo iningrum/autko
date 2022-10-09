@@ -3,21 +3,21 @@ autko.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000100  2**0
+  0 .data         00000000  00800100  00800100  00000158  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000000ac  00000000  00000000  00000054  2**1
+  1 .text         00000104  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000100  2**0
+  2 .comment      00000030  00000000  00000000  00000158  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000130  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000188  2**2
                   CONTENTS, READONLY
-  4 .debug_info   000005f4  00000000  00000000  00000170  2**0
+  4 .debug_info   000005f4  00000000  00000000  000001c8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_abbrev 000005a2  00000000  00000000  00000764  2**0
+  5 .debug_abbrev 000005a2  00000000  00000000  000007bc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_line   00000134  00000000  00000000  00000d06  2**0
+  6 .debug_line   00000134  00000000  00000000  00000d5e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_str    00000208  00000000  00000000  00000e3a  2**0
+  7 .debug_str    00000208  00000000  00000000  00000e92  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -58,35 +58,82 @@ Disassembly of section .text:
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
   74:	0e 94 40 00 	call	0x80	; 0x80 <main>
-  78:	0c 94 54 00 	jmp	0xa8	; 0xa8 <_exit>
+  78:	0c 94 80 00 	jmp	0x100	; 0x100 <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000080 <main>:
-  80:	84 b1       	in	r24, 0x04	; 4
-  82:	8c 6c       	ori	r24, 0xCC	; 204
-  84:	84 b9       	out	0x04, r24	; 4
-  86:	85 b1       	in	r24, 0x05	; 5
-  88:	8c 6c       	ori	r24, 0xCC	; 204
-  8a:	85 b9       	out	0x05, r24	; 5
-  8c:	9c ec       	ldi	r25, 0xCC	; 204
-  8e:	2f ef       	ldi	r18, 0xFF	; 255
-  90:	33 ed       	ldi	r19, 0xD3	; 211
-  92:	80 e3       	ldi	r24, 0x30	; 48
-  94:	21 50       	subi	r18, 0x01	; 1
-  96:	30 40       	sbci	r19, 0x00	; 0
-  98:	80 40       	sbci	r24, 0x00	; 0
-  9a:	e1 f7       	brne	.-8      	; 0x94 <main+0x14>
-  9c:	00 c0       	rjmp	.+0      	; 0x9e <main+0x1e>
-  9e:	00 00       	nop
-  a0:	85 b1       	in	r24, 0x05	; 5
-  a2:	89 27       	eor	r24, r25
-  a4:	85 b9       	out	0x05, r24	; 5
-  a6:	f3 cf       	rjmp	.-26     	; 0x8e <main+0xe>
+  80:	0e 94 52 00 	call	0xa4	; 0xa4 <_ZN6Lights5SetupEv>
+  84:	81 e0       	ldi	r24, 0x01	; 1
+  86:	0e 94 71 00 	call	0xe2	; 0xe2 <_ZN6Lights2OnEb>
+  8a:	2f ef       	ldi	r18, 0xFF	; 255
+  8c:	83 ed       	ldi	r24, 0xD3	; 211
+  8e:	90 e3       	ldi	r25, 0x30	; 48
+  90:	21 50       	subi	r18, 0x01	; 1
+  92:	80 40       	sbci	r24, 0x00	; 0
+  94:	90 40       	sbci	r25, 0x00	; 0
+  96:	e1 f7       	brne	.-8      	; 0x90 <main+0x10>
+  98:	00 c0       	rjmp	.+0      	; 0x9a <main+0x1a>
+  9a:	00 00       	nop
+  9c:	81 e0       	ldi	r24, 0x01	; 1
+  9e:	0e 94 56 00 	call	0xac	; 0xac <_ZN6Lights6ToggleEb>
+  a2:	f3 cf       	rjmp	.-26     	; 0x8a <main+0xa>
 
-000000a8 <_exit>:
-  a8:	f8 94       	cli
+000000a4 <_ZN6Lights5SetupEv>:
+  a4:	84 b1       	in	r24, 0x04	; 4
+  a6:	83 60       	ori	r24, 0x03	; 3
+  a8:	84 b9       	out	0x04, r24	; 4
+  aa:	08 95       	ret
 
-000000aa <__stop_program>:
-  aa:	ff cf       	rjmp	.-2      	; 0xaa <__stop_program>
+000000ac <_ZN6Lights6ToggleEb>:
+  ac:	91 e0       	ldi	r25, 0x01	; 1
+  ae:	89 27       	eor	r24, r25
+  b0:	95 b1       	in	r25, 0x05	; 5
+  b2:	21 e0       	ldi	r18, 0x01	; 1
+  b4:	30 e0       	ldi	r19, 0x00	; 0
+  b6:	08 2e       	mov	r0, r24
+  b8:	02 c0       	rjmp	.+4      	; 0xbe <_ZN6Lights6ToggleEb+0x12>
+  ba:	22 0f       	add	r18, r18
+  bc:	33 1f       	adc	r19, r19
+  be:	0a 94       	dec	r0
+  c0:	e2 f7       	brpl	.-8      	; 0xba <_ZN6Lights6ToggleEb+0xe>
+  c2:	92 27       	eor	r25, r18
+  c4:	95 b9       	out	0x05, r25	; 5
+  c6:	43 b1       	in	r20, 0x03	; 3
+  c8:	50 e0       	ldi	r21, 0x00	; 0
+  ca:	24 23       	and	r18, r20
+  cc:	35 23       	and	r19, r21
+  ce:	02 c0       	rjmp	.+4      	; 0xd4 <_ZN6Lights6ToggleEb+0x28>
+  d0:	35 95       	asr	r19
+  d2:	27 95       	ror	r18
+  d4:	8a 95       	dec	r24
+  d6:	e2 f7       	brpl	.-8      	; 0xd0 <_ZN6Lights6ToggleEb+0x24>
+  d8:	81 e0       	ldi	r24, 0x01	; 1
+  da:	23 2b       	or	r18, r19
+  dc:	09 f4       	brne	.+2      	; 0xe0 <_ZN6Lights6ToggleEb+0x34>
+  de:	80 e0       	ldi	r24, 0x00	; 0
+  e0:	08 95       	ret
+
+000000e2 <_ZN6Lights2OnEb>:
+  e2:	45 b1       	in	r20, 0x05	; 5
+  e4:	91 e0       	ldi	r25, 0x01	; 1
+  e6:	89 27       	eor	r24, r25
+  e8:	21 e0       	ldi	r18, 0x01	; 1
+  ea:	30 e0       	ldi	r19, 0x00	; 0
+  ec:	b9 01       	movw	r22, r18
+  ee:	02 c0       	rjmp	.+4      	; 0xf4 <_ZN6Lights2OnEb+0x12>
+  f0:	66 0f       	add	r22, r22
+  f2:	77 1f       	adc	r23, r23
+  f4:	8a 95       	dec	r24
+  f6:	e2 f7       	brpl	.-8      	; 0xf0 <_ZN6Lights2OnEb+0xe>
+  f8:	cb 01       	movw	r24, r22
+  fa:	84 2b       	or	r24, r20
+  fc:	85 b9       	out	0x05, r24	; 5
+  fe:	08 95       	ret
+
+00000100 <_exit>:
+ 100:	f8 94       	cli
+
+00000102 <__stop_program>:
+ 102:	ff cf       	rjmp	.-2      	; 0x102 <__stop_program>
