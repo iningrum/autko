@@ -11,9 +11,13 @@ int main(void)
 	Lights::Setup();
 	Lights::On(true);
     /* Replace with your application code */
+	bool mode = false;
     while (1) 
     {
-		_delay_ms(10000);
-		Lights::Toggle(true);
+		mode = !mode;
+		_delay_ms(5000);
+		Lights::Toggle(mode);
+		_delay_ms(5000);
+		Lights::Toggle(!mode);
     }
 }
